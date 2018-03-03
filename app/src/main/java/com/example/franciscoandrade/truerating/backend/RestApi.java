@@ -20,7 +20,7 @@ public interface RestApi {
 
     @GET("9w7m-hzhe.json")
     Call<List<InspectionResultsModel>> getDBADiscover(
-            @Query("dba") String dba
+            @Query("camis") String camis
     );
 
 }
