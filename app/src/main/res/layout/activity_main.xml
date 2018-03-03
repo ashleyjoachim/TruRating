@@ -20,8 +20,8 @@
         android:drawableRight="@android:drawable/ic_menu_search"
         android:hint="search..."
         android:imeOptions="actionSearch"
-        android:maxLines="1"
         android:inputType="text"
+        android:maxLines="1"
         android:padding="8dp"
         android:paddingBottom="8dp"
         android:paddingTop="16dp" />
@@ -33,5 +33,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/main_search_bar"
-        android:layout_marginTop="80dp"></android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="80dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="go to maps"
+        android:onClick="onClick"/>
 </RelativeLayout>
