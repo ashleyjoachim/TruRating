@@ -97,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBottomSheetBehavior.setPeekHeight(50);
+                    mBottomSheetBehavior.setPeekHeight(100);
                 }
             }
 
@@ -197,6 +197,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
+
+        Location loc = mMap.getMyLocation();
+        LatLng point = new LatLng(loc.getLatitude() , loc.getLongitude());
+
+        if(loc != null){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,15));
+        }
+
+
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -209,6 +218,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setIndoorLevelPickerEnabled(true);
 
         uiSettings.setMyLocationButtonEnabled(true);
+
+
+
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -302,7 +314,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    private void moveToCurrentLocation(LatLng currentLocation)
+    {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
+        // Zoom in, animating the camera.
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
+
+    }
 
 
 }
