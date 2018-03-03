@@ -2,6 +2,8 @@ package com.example.franciscoandrade.truerating.backend;
 
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -12,12 +14,12 @@ import retrofit2.http.Query;
 
 public interface RestApi {
     @GET("9w7m-hzhe.json")
-    Call<InspectionResultsModel> getZipcodeDiscover(
+    Call<List<InspectionResultsModel>> getZipcodeDiscover(
             @Query("zipcode") String zipcode
     );
 
     @GET("9w7m-hzhe.json")
-    Call<InspectionResultsModel> getDBADiscover(
+    Call<List<InspectionResultsModel>> getDBADiscover(
             @Query("dba") String dba
     );
 
