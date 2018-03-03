@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="87dp"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Appname" />
+
+        <TextView
+            android:id="@+id/restaurant_address"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="address line 1 and 2" />
+
+        <TextView
+            android:id="@+id/telephone_number"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="718.854.5555" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>
