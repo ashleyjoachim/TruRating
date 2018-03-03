@@ -5,7 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:orientation="vertical"
 android:layout_height="match_parent"
-tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
+
+tools:context="com.example.franciscoandrade.truerating.MapsActivity"
     >
 
     <include layout="@layout/action_toolbar"/>

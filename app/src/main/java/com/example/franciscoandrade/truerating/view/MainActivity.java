@@ -13,9 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.example.franciscoandrade.truerating.MapsActivity;
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
@@ -43,16 +46,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
+
+
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String zipcode = searchEditText.getText().toString();
+                    networkZipcodeSearch(zipcode);
+                    return true;
+                }
+                return false;
+            }
+
+        });
         main_recycler_view= findViewById(R.id.main_recycler_view);
         retrofitGrading();
-
         gradingAdapter= new GradingAdapter(this);
-        networkZipcodeSearch("10001");
+
 
         main_recycler_view.setAdapter(gradingAdapter);
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
+
+
+        networkZipcodeSearch("10001");
+
 
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -72,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
     }
 
