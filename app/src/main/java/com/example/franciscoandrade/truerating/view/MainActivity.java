@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
-
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
             }
