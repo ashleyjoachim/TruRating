@@ -36,7 +36,8 @@ public class GradingAdapter extends RecyclerView.Adapter<GradingViewHolder> {
     @Override
     public void onBindViewHolder(GradingViewHolder holder, int position) {
         InspectionResultsModel inspectionResultsModel= listGrades.get(position);
-        //holder.onBind(inspectionResultsModel);
+        holder.onbind(inspectionResultsModel);
+
     }
 
     @Override
