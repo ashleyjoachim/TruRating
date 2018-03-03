@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void networkCallGrading(String zipcode){
         RestApi service = retrofit.create(RestApi.class);
-        Call<List<InspectionResultsModel>> response =service.getInspectionDiscover(zipcode);
+        Call<List<InspectionResultsModel>> response =service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
