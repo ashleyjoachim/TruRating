@@ -35,6 +35,9 @@ public class BusinessDetail extends AppCompatActivity{
         violationDescription = findViewById(R.id.violation_des);
         letterGrade = findViewById(R.id.letter_grade);
 
+
+        businessName.setText();
+
     }
 
 }
