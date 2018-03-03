@@ -2,6 +2,7 @@ package com.example.franciscoandrade.truerating.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.franciscoandrade.truerating.MapsActivity;
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
@@ -56,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
         });
         main_recycler_view= findViewById(R.id.main_recycler_view);
-        retrofitGrading();
+        //retrofitGrading();
         gradingAdapter= new GradingAdapter(this);
         main_recycler_view.setAdapter(gradingAdapter);
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
-        networkCallGrading("11220");
+        //networkCallGrading("11220");
 
 
     }
@@ -113,4 +116,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClick(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }
