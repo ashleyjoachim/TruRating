@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.franciscoandrade.truerating.view.MainActivity"
     android:padding="16dp"
-    >
+    tools:context="com.example.franciscoandrade.truerating.view.MainActivity">
 
     <EditText
         android:id="@+id/main_search_bar"
@@ -19,6 +18,9 @@
         android:drawablePadding="8dp"
         android:drawableRight="@android:drawable/ic_menu_search"
         android:hint="search..."
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:inputType="text"
         android:padding="8dp"
         android:paddingBottom="8dp"
         android:paddingTop="16dp" />
