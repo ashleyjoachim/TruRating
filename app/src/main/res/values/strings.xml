@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">TrueRating</string>
-<<<<<<< Updated upstream
     <string name="title_activity_maps">Map</string>
-=======
+
     <string name="violations">Violations were cited in the following area(s):</string>
     <string name="violationcode">Violation Code: </string>
     <string name="violatio_descrip">Violation description:</string>
     <string name="critical">Critical</string>
     <string name="score">Violation Points:</string>
 
->>>>>>> Stashed changes
+
 </resources>
