@@ -5,7 +5,9 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:orientation="vertical"
 android:layout_height="match_parent"
-tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
+    android:focusableInTouchMode="true"
+
+    tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
     >
 
     <include layout="@layout/action_toolbar"/>
@@ -15,17 +17,15 @@ tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
+    android:layout_marginTop="-20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@ tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
+                android:layout_height="700dp"
                 />
 
 
