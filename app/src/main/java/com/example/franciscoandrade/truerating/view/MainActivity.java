@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.MapsActivity;
 import com.example.franciscoandrade.truerating.R;
@@ -53,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String zipcode = searchEditText.getText().toString();
-
-                    networkCallGrading(zipcode);
+                    networkZipcodeSearch(zipcode);
                     return true;
                 }
                 return false;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         main_recycler_view= findViewById(R.id.main_recycler_view);
-        //retrofitGrading();
+        retrofitGrading();
         gradingAdapter= new GradingAdapter(this);
 
         main_recycler_view.setAdapter(gradingAdapter);
