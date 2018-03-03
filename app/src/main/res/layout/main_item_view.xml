@@ -12,7 +12,7 @@
         android:layout_height="87dp"
         android:gravity="center"
         android:text="A"
-        android:textSize="60dp"
+        android:textSize="45dp"
         android:layout_alignTop="@+id/linearLayout"
         android:layout_toEndOf="@+id/linearLayout"
         android:layout_toRightOf="@+id/linearLayout"
