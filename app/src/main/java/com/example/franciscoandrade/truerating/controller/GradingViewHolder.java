@@ -16,7 +16,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private TextView restaurantName;
     private TextView address;
     private TextView phoneNumber;
-    private TextView letterGrade;
+    private TextView letterGrade, letter_gradePending;
     private String streetAddress;
     private String businessNumber;
     private String letter;
@@ -29,6 +29,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         address = itemView.findViewById(R.id.restaurant_address);
         phoneNumber = itemView.findViewById(R.id.telephone_number);
         letterGrade = itemView.findViewById(R.id.letter_grade);
+        letter_gradePending = itemView.findViewById(R.id.letter_gradePending);
 
     }
     public void onbind(InspectionResultsModel inspectionResultsModel){
@@ -44,8 +45,15 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         restaurantName.setText(inspectionResultsModel.getDba());
         address.setText(streetAddress);
         phoneNumber.setText(businessNumber);
-        if(inspectionResultsModel.getGrade()==null){
-            letter= "Pending";
+        if(inspectionResultsModel.getGrade()==null || inspectionResultsModel.getGrade().equals("Not Yet Graded")){
+            letter_gradePending.setVisibility(View.VISIBLE);
+            letterGrade.setVisibility(View.GONE);
+
+        }
+        else {
+            letter_gradePending.setVisibility(View.GONE);
+            letterGrade.setVisibility(View.VISIBLE);
+
         }
         letterGrade.setText(letter);
     }

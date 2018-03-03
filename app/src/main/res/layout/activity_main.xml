@@ -20,8 +20,8 @@
         android:drawableRight="@android:drawable/ic_menu_search"
         android:hint="search..."
         android:imeOptions="actionSearch"
-        android:maxLines="1"
         android:inputType="text"
+        android:maxLines="1"
         android:padding="8dp"
         android:paddingBottom="8dp"
         android:paddingTop="16dp" />
