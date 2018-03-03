@@ -33,6 +33,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     }
     public void onbind(InspectionResultsModel inspectionResultsModel){
 
+
         streetAddress = inspectionResultsModel.getBuilding()+ " " + inspectionResultsModel.getStreet()
                 + "\n" + inspectionResultsModel.getBoro() + " , " + inspectionResultsModel.getZipcode();
 
@@ -40,12 +41,12 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
         letter = inspectionResultsModel.getGrade();
 
-
-
         restaurantName.setText(inspectionResultsModel.getDba());
         address.setText(streetAddress);
         phoneNumber.setText(businessNumber);
+        if(inspectionResultsModel.getGrade()==null){
+            letter= "Pending";
+        }
         letterGrade.setText(letter);
-
     }
 }
