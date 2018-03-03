@@ -16,7 +16,12 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private TextView restaurantName;
     private TextView address;
     private TextView phoneNumber;
-    private ImageView letterGrade;
+    private TextView letterGrade;
+    private String streetAddress;
+    private String businessNumber;
+    private String letter;
+
+
     public GradingViewHolder(View itemView) {
         super(itemView);
 
@@ -27,6 +32,20 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
     }
     public void onbind(InspectionResultsModel inspectionResultsModel){
+
+        streetAddress = inspectionResultsModel.getBuilding()+ " " + inspectionResultsModel.getStreet()
+                + "\n" + inspectionResultsModel.getBoro() + " , " + inspectionResultsModel.getZipcode();
+
+        businessNumber = inspectionResultsModel.getPhone();
+
+        letter = inspectionResultsModel.getGrade();
+
+
+
+        restaurantName.setText(inspectionResultsModel.getDba());
+        address.setText(streetAddress);
+        phoneNumber.setText(businessNumber);
+        letterGrade.setText(letter);
 
     }
 }
