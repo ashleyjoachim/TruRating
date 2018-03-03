@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 public interface RestApi {
     @GET("9w7m-hzhe.json")
     Call<InspectionResultsModel> getInspectionDiscover(
-            @Query("zipcode") String zipcode;
+            @Query("zipcode") String zipcode
     );
 
 }
