@@ -19,11 +19,24 @@
         >
 
        <EditText
+           android:id="@+id/maps_search_bar"
            android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:hint="Search"
-           android:gravity="bottom"
-           />
+           android:layout_height="wrap_content"
+           android:layout_alignLeft="@+id/main_recycler_view"
+           android:layout_alignParentTop="true"
+           android:layout_alignStart="@+id/main_recycler_view"
+           android:layout_marginTop="27dp"
+           android:drawablePadding="8dp"
+           android:drawableRight="@android:drawable/ic_menu_search"
+           android:hint="search..."
+           android:imeOptions="actionSearch"
+           android:inputType="text"
+           android:maxLines="1"
+           android:padding="8dp"
+           android:paddingBottom="8dp"
+           android:paddingTop="16dp"/>
+
+
 
 
     </android.support.v7.widget.Toolbar>
