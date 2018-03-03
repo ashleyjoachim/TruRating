@@ -42,12 +42,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
+        main_recycler_view = findViewById(R.id.main_recycler_view);
+        retrofitGrading();
+        gradingAdapter = new GradingAdapter(this);
+        main_recycler_view.setAdapter(gradingAdapter);
+        main_recycler_view.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        main_recycler_view.setLayoutManager(linearLayoutManager);
+        networkCallGrading("10001");
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String zipcode = searchEditText.getText().toString();
-
+                    main_recycler_view.scrollToPosition(0);
                     networkCallGrading(zipcode);
                     return true;
                 }
@@ -55,15 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        main_recycler_view= findViewById(R.id.main_recycler_view);
-        retrofitGrading();
-        gradingAdapter= new GradingAdapter(this);
-        main_recycler_view.setAdapter(gradingAdapter);
-        main_recycler_view.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        main_recycler_view.setLayoutManager(linearLayoutManager);
-        networkCallGrading("11220");
-
 
     }
 
@@ -74,28 +73,29 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    public void networkCallGrading(String zipcode){
+    public void networkCallGrading(String zipcode) {
         RestApi service = retrofit.create(RestApi.class);
-        Call<List<InspectionResultsModel>> response =service.getZipcodeDiscover(zipcode);
+        Call<List<InspectionResultsModel>> response = service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
-               if(response.isSuccessful()){
-                   inspectionResultsList= new ArrayList<>();
-                   inspectionResultsList.addAll(response.body());
+                if (response.isSuccessful()) {
+                    inspectionResultsList = new ArrayList<>();
+                    inspectionResultsList.addAll(response.body());
 
-                   gradingAdapter.adGrades(inspectionResultsList);
-               }
+                    gradingAdapter.adGrades(inspectionResultsList);
+                }
             }
 
             @Override
             public void onFailure(Call<List<InspectionResultsModel>> call, Throwable t) {
 
-                Log.d("RESPONSE", "onFailure: "+t.getMessage());
+                Log.d("RESPONSE", "onFailure: " + t.getMessage());
             }
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
