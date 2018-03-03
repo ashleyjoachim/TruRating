@@ -2,6 +2,7 @@ package com.example.franciscoandrade.truerating.view;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,24 +43,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
-        main_recycler_view = findViewById(R.id.main_recycler_view);
+        main_recycler_view= findViewById(R.id.main_recycler_view);
         retrofitGrading();
-        gradingAdapter = new GradingAdapter(this);
+
+        gradingAdapter= new GradingAdapter(this);
+        networkZipcodeSearch("10001");
+
         main_recycler_view.setAdapter(gradingAdapter);
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
-        networkZipcodeSearch("10001");
 
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                //some text
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    String input = searchEditText.getText().toString().toUpperCase();
+                    String input = searchEditText.getText().toString().toUpperCase().trim();
                     main_recycler_view.scrollToPosition(0);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-
                     if (input.length() == 5) {
                         networkZipcodeSearch(input);
                         return true;
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
-
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
             }
@@ -138,10 +138,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClick(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }
