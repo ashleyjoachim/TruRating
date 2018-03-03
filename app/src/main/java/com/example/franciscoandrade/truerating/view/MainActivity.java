@@ -2,6 +2,10 @@ package com.example.franciscoandrade.truerating.view;
 
 import android.content.Context;
 import android.content.Intent;
+
+import android.content.SharedPreferences;
+import android.net.Uri;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import com.example.franciscoandrade.truerating.MapsActivity;
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
@@ -42,13 +47,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
-        main_recycler_view = findViewById(R.id.main_recycler_view);
-        retrofitGrading();
-        gradingAdapter = new GradingAdapter(this);
+
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String zipcode = searchEditText.getText().toString();
+
+                    networkCallGrading(zipcode);
+                    return true;
+                }
+                return false;
+            }
+
+        });
+        main_recycler_view= findViewById(R.id.main_recycler_view);
+        //retrofitGrading();
+        gradingAdapter= new GradingAdapter(this);
+
         main_recycler_view.setAdapter(gradingAdapter);
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
+
         networkZipcodeSearch("10001");
 
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
@@ -69,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
     }
 
@@ -142,4 +164,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClick(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }
