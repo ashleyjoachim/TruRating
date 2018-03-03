@@ -5,4 +5,6 @@ package com.example.franciscoandrade.truerating.backend;
  */
 
 public interface RestApi {
+
+
 }
