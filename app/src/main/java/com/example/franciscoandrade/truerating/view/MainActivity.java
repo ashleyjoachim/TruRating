@@ -10,6 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
@@ -36,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final EditText searchEditText = findViewById(R.id.main_search_bar);
+
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String zipcode = searchEditText.getText().toString();
+
+                    networkCallGrading(zipcode);
+                    return true;
+                }
+                return false;
+            }
+
+        });
         main_recycler_view= findViewById(R.id.main_recycler_view);
         retrofitGrading();
         gradingAdapter= new GradingAdapter(this);
@@ -57,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void networkCallGrading(String zipcode){
         RestApi service = retrofit.create(RestApi.class);
-        Call<List<InspectionResultsModel>> response =service.getInspectionDiscover(zipcode);
+        Call<List<InspectionResultsModel>> response =service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
