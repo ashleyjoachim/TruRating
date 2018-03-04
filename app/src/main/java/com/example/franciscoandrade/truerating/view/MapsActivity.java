@@ -190,7 +190,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        mMap = googleMap
+        mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
@@ -251,6 +251,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
 
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            });
+
+            onTouchEvent()
 //            mFusedLocationClient.getLastLocation()
 //                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
 //                        @Override
