@@ -21,6 +21,10 @@ public class InspectionResultsModel {
     private String violation_description;
     private String zipcode;
 
+    public InspectionResultsModel(String dba) {
+        this.dba = dba;
+    }
+
     public String getAction() {
         return action;
     }
