@@ -155,6 +155,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMyLocationChange(Location location) {
                 CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
                 mMap.animateCamera(cu);
+                Geocoder coder = new Geocoder(getApplicationContext());
+                List<Address> address;
+                try {
+                    address = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
+                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getPostalCode());
+                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getAddressLine(0));
+                    String[] tokens = address.get(0).getAddressLine(0).split("\\d{5}");
+                    Log.d("ZIP", "onMyLocationChange: "+tokens.toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
