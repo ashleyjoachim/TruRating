@@ -100,9 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
-
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBottomSheetBehavior.setPeekHeight(100);
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    mBottomSheetBehavior.setPeekHeight(50);
                 }
             }
 
@@ -215,7 +214,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        uiSettings.setMapToolbarEnabled(true);
 //        uiSettings.setIndoorLevelPickerEnabled(true);
 //        uiSettings.setMyLocationButtonEnabled(true);
-
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
