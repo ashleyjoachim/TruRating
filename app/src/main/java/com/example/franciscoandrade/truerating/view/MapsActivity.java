@@ -190,18 +190,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        mMap = googleMap;
-
-
-        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-            @Override
-            public void onMyLocationChange(Location location) {
-                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
-                mMap.animateCamera(cu);
-                Log.d("REPEATS", "onMyLocationChange: ");
-            }
-        });
-
+        mMap = googleMap
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
@@ -214,14 +203,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        uiSettings.setMapToolbarEnabled(true);
 //        uiSettings.setIndoorLevelPickerEnabled(true);
 //        uiSettings.setMyLocationButtonEnabled(true);
-
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
+        //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
+        //mMap.animateCamera(cu);
+        mMap.animateCamera(cu);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
         } else {
-            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
-            mMap.animateCamera(cu);
+//            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
+//            //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
+//            //mMap.animateCamera(cu);
+//            mMap.animateCamera(cu);
             mMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             googleMap.getUiSettings().setRotateGesturesEnabled(false);
