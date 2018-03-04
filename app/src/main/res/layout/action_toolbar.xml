@@ -17,14 +17,13 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         >
 
-
-
-
         <ImageView
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foregroundGravity="left"
-            android:src="@drawable/tru" />
+            android:layout_marginEnd="?attr/actionBarSize"
+            android:foregroundGravity="center"
+            android:src="@drawable/tru"
+            android:layout_marginRight="?attr/actionBarSize" />
 
 
     </android.support.v7.widget.Toolbar>
