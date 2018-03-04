@@ -1,8 +1,12 @@
 package com.example.franciscoandrade.truerating.view;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.R;
@@ -30,7 +34,11 @@ public class BusinessDetail extends AppCompatActivity{
     private String grade;
 
 
+<<<<<<< Updated upstream
 
+=======
+    @SuppressLint("ResourceAsColor")
+>>>>>>> Stashed changes
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +53,16 @@ public class BusinessDetail extends AppCompatActivity{
 
         letterGrade = findViewById(R.id.lettergrade_detail);
 
+        showToolBar("", true);
+
 
         name = getInfo("name");
         address = getInfo("address");
         grade = getInfo("grade");
-        status= getInfo("critical");
+        status = getInfo("critical");
         description = getInfo("desc");
         code = getInfo("code");
         points = getInfo("score");
-
 
 
         try {
@@ -61,8 +70,8 @@ public class BusinessDetail extends AppCompatActivity{
             addressLine.setText(address);
             letterGrade.setText(grade);
             critical.setText("Status: " + status);
-            violationDescription.setText("Violation Description: " +"\n"+ description);
-            violationCodes.setText("Violation Code: "+ code);
+            violationDescription.setText("Violation Description: " + "\n" + description);
+            violationCodes.setText("Violation Code: " + code);
             violationPoints.setText("Violation Points: " + points);
 
         } catch (NullPointerException e) {
@@ -70,9 +79,31 @@ public class BusinessDetail extends AppCompatActivity{
         }
     }
 
-    public String getInfo(String description){
-       return  getIntent().getExtras().get(description).toString();
+    public String getInfo(String description) {
+        return getIntent().getExtras().get(description).toString();
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void showToolBar(String tittle, boolean upButton) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(tittle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+        toolbar.getNavigationIcon()
+                .setColorFilter(getResources()
+                                .getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        return true;
+    }
+
 }
