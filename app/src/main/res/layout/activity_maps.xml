@@ -98,7 +98,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
                 android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/btnOther_Rating"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="All"
+                        android:textSize="15sp"
+                        android:textAlignment="center"/>
+
+                    <TextView
+                        android:id="@+id/btnOther_RatingBar"
+                        android:layout_width="20dp"
+                        android:layout_height="2dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@color/light_green"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btnA_Rating"
@@ -111,7 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="A"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textAlignment="center"
                         />
 
@@ -136,7 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="B"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textAlignment="center"/>
 
                     <TextView
@@ -148,28 +173,7 @@
                         android:background="@color/dark_gray"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btnOther_Rating"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="All"
-                        android:textSize="20sp"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:id="@+id/btnOther_RatingBar"
-                        android:layout_width="20dp"
-                        android:layout_height="2dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:background="@color/light_green"/>
-                </LinearLayout>
 
             </LinearLayout>
 

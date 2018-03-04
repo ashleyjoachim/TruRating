@@ -128,10 +128,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    mBottomSheetBehavior.setPeekHeight(300);
                     String input = searchEditText.getText().toString().toUpperCase().trim();
                     main_recycler_view.scrollToPosition(0);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    if (input.equals("")){
+                        searchEditText.setError("Enter Text");
+                        return false;
+
+                    }
                     if (input.length() == 5) {
                         networkZipcodeSearch(input);
                         return true;
@@ -225,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        LatLng nyc = new LatLng(40.7128, -74.0060);
+        LatLng nyc = new LatLng(40.7429437, -73.9418781);
 
 //        mMap.addMarker(new MarkerOptions().position(nyc).title("Marker in NYC").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_round)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(nyc));
