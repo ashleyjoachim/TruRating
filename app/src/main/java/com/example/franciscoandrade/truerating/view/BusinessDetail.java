@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.R;
@@ -15,7 +16,7 @@ import com.example.franciscoandrade.truerating.R;
  * Created by melg on 3/3/18.
  */
 
-public class BusinessDetail extends AppCompatActivity{
+public class BusinessDetail extends AppCompatActivity {
 
     private TextView businessName;
     private TextView addressLine;
@@ -39,25 +40,32 @@ public class BusinessDetail extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_layout);
 
-        businessName = findViewById(R.id.restaurant_name);
-        addressLine = findViewById(R.id.restaurant_address);
+        businessName = findViewById(R.id.name_restaurant_detail);
+        addressLine = findViewById(R.id.business_address_detail);
         critical = findViewById(R.id.critical_flag);
-       // violationPoints = findViewById(R.id.score);
-        violationCodes= findViewById(R.id.violation_code);
+        violationPoints = findViewById(R.id.points);
+        violationCodes = findViewById(R.id.violation_code);
         violationDescription = findViewById(R.id.violation_des);
-
         letterGrade = findViewById(R.id.lettergrade_detail);
 
         showToolBar("", true);
+        Intent intent = getIntent();
 
+        code = intent.getStringExtra("code");
+        description = intent.getStringExtra("desc");
+        status = intent.getStringExtra("critical");
+        address = intent.getStringExtra("address");
+        grade = intent.getStringExtra("grade");
+        name = intent.getStringExtra("name");
+        points = intent.getStringExtra("point");
 
-        name = getInfo("name");
-        address = getInfo("address");
-        grade = getInfo("grade");
-        status = getInfo("critical");
-        description = getInfo("desc");
-        code = getInfo("code");
-        //points = getInfo("score");
+        Log.e("TAG", "onCreate: "+ code );
+        Log.e("TAG", "onCreate: "+ grade );
+        Log.e("TAG", "onCreate: "+ name );
+        Log.e("TAG", "onCreate: "+ points );
+        Log.e("TAG", "onCreate: "+ status );
+        Log.e("TAG", "onCreate: "+ description );
+        Log.e("TAG", "onCreate: "+ address );
 
 
         try {
@@ -67,16 +75,13 @@ public class BusinessDetail extends AppCompatActivity{
             critical.setText("Status: " + status);
             violationDescription.setText("Violation Description: " + "\n" + description);
             violationCodes.setText("Violation Code: " + code);
-            //violationPoints.setText("Violation Points: " + points);
+            violationPoints.setText("Violation Points: " + points);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public String getInfo(String description) {
-        return getIntent().getExtras().get(description).toString();
-    }
 
     @SuppressLint("ResourceAsColor")
     private void showToolBar(String tittle, boolean upButton) {
@@ -86,9 +91,7 @@ public class BusinessDetail extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
         toolbar.getNavigationIcon()
                 .setColorFilter(getResources()
-                                .getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
-
-
+                        .getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
