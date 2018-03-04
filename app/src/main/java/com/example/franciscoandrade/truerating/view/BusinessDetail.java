@@ -1,6 +1,5 @@
 package com.example.franciscoandrade.truerating.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +20,14 @@ public class BusinessDetail extends AppCompatActivity {
     private TextView violationCodes;
     private TextView violationDescription;
     private TextView letterGrade;
+    private String status;
+    private String points;
+    private String description;
+    private String code;
+    private String name;
+    private String address;
+    private String violationPoint;
+    private String grade;
 
 
     @Override
@@ -35,17 +42,34 @@ public class BusinessDetail extends AppCompatActivity {
         violationDescription = findViewById(R.id.violation_des);
         letterGrade = findViewById(R.id.lettergrade_detail);
 
+
+        name = getInfo("name");
+        address = getInfo("address");
+        grade = getInfo("grade");
+        status= getInfo("critical");
+        description = getInfo("desc");
+        code = getInfo("code");
+        points = getInfo("score");
+
+
+
         try {
-            businessName.setText(getIntent().getExtras().getString("name"));
-            addressLine.setText(getIntent().getExtras().get("address").toString());
-            letterGrade.setText(getIntent().getExtras().get("grade").toString());
-            critical.setText("Status: " + getIntent().getExtras().get("critical").toString());
-            violationDescription.setText("Violation Description: " + getIntent().getExtras().get("desc").toString());
-            violationCodes.setText("Violation Code: " + getIntent().getExtras().get("code").toString());
+            businessName.setText(name);
+            addressLine.setText(address);
+            letterGrade.setText(grade);
+            critical.setText("Status: " + status);
+            violationDescription.setText("Violation Description: " +"\n"+ description);
+            violationCodes.setText("Violation Code: "+ code);
+            violationPoints.setText("Violation Points: " + points);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
+    public String getInfo(String description){
+       return  getIntent().getExtras().get(description).toString();
+
+
+    }
 }

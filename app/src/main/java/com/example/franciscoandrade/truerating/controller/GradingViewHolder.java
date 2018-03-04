@@ -78,6 +78,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
                 bundle.putString("critical",inspectionResultsModel.getCritical_flag());
                 bundle.putString("address", streetAddress);
                 bundle.putString("phone", businessNumber);
+                bundle.putString("score", inspectionResultsModel.getScore());
                 bundle.putString("name", name);
                 if (letter != null) {
                     bundle.putString("grade", letter);
