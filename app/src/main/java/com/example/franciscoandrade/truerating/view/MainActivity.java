@@ -3,9 +3,6 @@ package com.example.franciscoandrade.truerating.view;
 import android.content.Context;
 import android.content.Intent;
 
-import android.content.SharedPreferences;
-import android.net.Uri;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,9 +14,10 @@ import android.view.MenuItem;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.franciscoandrade.truerating.MapsActivity;
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
@@ -48,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
 
+
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String zipcode = searchEditText.getText().toString();
-
-                    networkCallGrading(zipcode);
+                    networkZipcodeSearch(zipcode);
                     return true;
                 }
                 return false;
@@ -62,25 +60,26 @@ public class MainActivity extends AppCompatActivity {
 
         });
         main_recycler_view= findViewById(R.id.main_recycler_view);
-        //retrofitGrading();
+        retrofitGrading();
         gradingAdapter= new GradingAdapter(this);
+
 
         main_recycler_view.setAdapter(gradingAdapter);
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
 
+
         networkZipcodeSearch("10001");
+
 
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                //some text
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    String input = searchEditText.getText().toString().toUpperCase();
+                    String input = searchEditText.getText().toString().toUpperCase().trim();
                     main_recycler_view.scrollToPosition(0);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-
                     if (input.length() == 5) {
                         networkZipcodeSearch(input);
                         return true;
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
-
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
             }
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
