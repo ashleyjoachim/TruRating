@@ -1,82 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/colorWhite">
 
+    <include layout="@layout/action_toolbar" />
 
-    <TextView
-        android:id="@+id/name_restaurant_detail"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="MIMI WOK"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/business_address_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="2355 west fourth NY,NY 10022"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
 
-    <TextView
-        android:id="@+id/lettergrade_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="A"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="100sp" />
+            <TextView
+                android:id="@+id/name_restaurant_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="MIMI WOK"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/business_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="2355 west fourth NY,NY 10022"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingBottom="8dp"
-        android:text="@string/violations"
-        android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/lettergrade_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="A"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="90sp" />
 
-    <TextView
-        android:id="@+id/critical_flag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/critical"
-        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/score"
-        android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="8dp"
+                android:text="@string/violations"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/violation_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/violationcode"
-        android:textSize="16sp" />
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="8dp"
+                android:padding="16dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/points"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/score"
-        android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
 
-    <TextView
-        android:id="@+id/violation_des"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/violatio_descrip"
-        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/critical_flag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/critical"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="8dp"
+                android:padding="16dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/violation_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/violationcode"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="8dp"
+                android:padding="16dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true"
+                >
+
+                <TextView
+                    android:id="@+id/points"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+                =
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="8dp"
+                android:padding="16dp"
+                app:cardCornerRadius="4dp"
+
+                app:cardUseCompatPadding="true"
+                >
+
+                <TextView
+                    android:id="@+id/violation_des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/violatio_descrip"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

@@ -22,22 +22,24 @@ public class GradingAdapter extends RecyclerView.Adapter<GradingViewHolder> {
     Context context;
 
 
-    public GradingAdapter(Context context) {
+    public GradingAdapter(Context context){
 
-        this.context = context;
-        listGrades = new ArrayList<>();
+        this.context= context;
+        listGrades= new ArrayList<>();
     }
 
     @Override
     public GradingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_view, parent, false);
-        return new GradingViewHolder(view);
-    }
+        return new GradingViewHolder(view);    }
 
     @Override
     public void onBindViewHolder(GradingViewHolder holder, int position) {
-        InspectionResultsModel inspectionResultsModel = listGrades.get(position);
+        InspectionResultsModel inspectionResultsModel= listGrades.get(position);
         holder.onbind(inspectionResultsModel);
+
+
+
     }
 
     @Override
