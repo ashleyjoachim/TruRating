@@ -22,6 +22,7 @@ public class BusinessDetail extends AppCompatActivity {
     private TextView violationDescription;
     private TextView letterGrade;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
