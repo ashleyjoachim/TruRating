@@ -38,6 +38,8 @@ public class GradingAdapter extends RecyclerView.Adapter<GradingViewHolder> {
         InspectionResultsModel inspectionResultsModel= listGrades.get(position);
         holder.onbind(inspectionResultsModel);
 
+
+
     }
 
     @Override

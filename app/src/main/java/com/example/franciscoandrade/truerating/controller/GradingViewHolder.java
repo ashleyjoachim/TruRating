@@ -1,12 +1,15 @@
 package com.example.franciscoandrade.truerating.controller;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
+import com.example.franciscoandrade.truerating.view.BusinessDetail;
 
 /**
  * Created by melg on 3/3/18.
@@ -20,6 +23,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private String streetAddress;
     private String businessNumber;
     private String letter;
+    private LinearLayout cardLayout;
 
 
     public GradingViewHolder(View itemView) {
@@ -30,6 +34,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         phoneNumber = itemView.findViewById(R.id.telephone_number);
         letterGrade = itemView.findViewById(R.id.letter_grade);
         letter_gradePending = itemView.findViewById(R.id.letter_gradePending);
+        cardLayout = itemView.findViewById(R.id.iv_card);
 
     }
     public void onbind(InspectionResultsModel inspectionResultsModel){
@@ -56,5 +61,14 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
         }
         letterGrade.setText(letter);
+
+        cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(itemView.getContext(),BusinessDetail.class);
+                itemView.getContext().startActivity(intent);
+
+            }
+        });
     }
 }
