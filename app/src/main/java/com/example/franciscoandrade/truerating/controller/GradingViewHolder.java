@@ -68,8 +68,6 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
                 Intent intent  = new Intent(itemView.getContext(),BusinessDetail.class);
                 itemView.getContext().startActivity(intent);
 
-
-
             }
         });
     }

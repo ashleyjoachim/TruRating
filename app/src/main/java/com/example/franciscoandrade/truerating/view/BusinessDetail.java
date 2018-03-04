@@ -36,7 +36,7 @@ public class BusinessDetail extends AppCompatActivity{
         letterGrade = findViewById(R.id.letter_grade);
 
 
-        businessName.setText();
+       // businessName.setText();
 
     }
 
