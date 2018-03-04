@@ -18,6 +18,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
@@ -44,7 +47,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private GoogleMap mMap;
     FusedLocationProviderClient mFusedLocationClient;
@@ -62,6 +65,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GradingAdapter gradingAdapter;
     private List<InspectionResultsModel> inspectionResultsList;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private LinearLayout btnA_Rating, btnB_Rating, btnOther_Rating;
+    private TextView btnA_RatingBar, btnB_RatingBar, btnOther_RatingBar;
+    private List<InspectionResultsModel> listAresult;
+    private List<InspectionResultsModel> listBresult;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +78,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchDatabase = new SearchDatabase(getApplicationContext());
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        btnA_RatingBar=findViewById(R.id.btnA_RatingBar);
+        btnB_RatingBar=findViewById(R.id.btnB_RatingBar);
+        btnOther_RatingBar=findViewById(R.id.btnOther_RatingBar);
+        btnA_Rating=findViewById(R.id.btnA_Rating);
+        btnB_Rating=findViewById(R.id.btnB_Rating);
+        btnOther_Rating=findViewById(R.id.btnOther_Rating);
+        btnA_Rating.setOnClickListener(this);
+        btnB_Rating.setOnClickListener(this);
+        btnOther_Rating.setOnClickListener(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -94,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onStateChanged(View bottomSheet, int newState) {
 
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    mBottomSheetBehavior.setPeekHeight(50);
+                    mBottomSheetBehavior.setPeekHeight(70);
                 }
             }
 
@@ -142,9 +160,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
                 if (response.isSuccessful()) {
+                    listAresult= new ArrayList<>();
+                    listBresult= new ArrayList<>();
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
+                  
+                    new LoadFilteredData().execute(inspectionResultsList);
+
+                    //setMapPoints(inspectionResultsList);
                     for (int i = 0; i < response.body().size()-1; i++) {
                         String searchTerms = response.body().get(i).getDba();
                         searchDatabase.addSearchTerm(new InspectionResultsModel(searchTerms));
@@ -159,6 +183,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
+
+//    private void setMapPoints(List<InspectionResultsModel> inspectionResultsList) throws IOException {
+//
+//    }
 
     public void networkNameSearch(String name) {
         RestApi service = retrofit.create(RestApi.class);
@@ -209,9 +237,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.animateCamera(cu);
         mMap.animateCamera(cu);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
         } else {
 //            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
 //            //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
@@ -252,6 +280,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
 
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            });
+
 //            mFusedLocationClient.getLastLocation()
 //                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
 //                        @Override
@@ -281,6 +316,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.btnA_Rating:
+                Log.d("BTNClickA", "onClick: ");
+                offBars();
+                btnA_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                gradingAdapter.notifyDataSetChanged();
+                gradingAdapter.adGrades(listAresult);
+                gradingAdapter.notifyDataSetChanged();
+                break;
+            case R.id.btnB_Rating:
+                Log.d("BTNClickB", "onClick: ");
+                offBars();
+                btnB_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                gradingAdapter.notifyDataSetChanged();
+                gradingAdapter.adGrades(listBresult);
+                gradingAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.btnOther_Rating:
+                Log.d("BTNClickOther", "onClick: ");
+                offBars();
+                btnOther_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                gradingAdapter.adGrades(inspectionResultsList);
+                gradingAdapter.notifyDataSetChanged();
+                break;
+
+
+        }
+
+    }
+
+    private void offBars() {
+
+        btnA_RatingBar.setBackgroundColor(getResources().getColor(R.color.dark_gray));
+        btnB_RatingBar.setBackgroundColor(getResources().getColor(R.color.dark_gray));
+        btnOther_RatingBar.setBackgroundColor(getResources().getColor(R.color.dark_gray));
+    }
+
+
     public class LoadData extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -294,6 +372,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             super.onPostExecute(aVoid);
             gradingAdapter.notifyDataSetChanged();
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
+
+
+    private class LoadFilteredData extends AsyncTask<List<InspectionResultsModel>, Void, Void> {
+        @Override
+        protected Void doInBackground(List<InspectionResultsModel>[] lists) {
+
+            Log.d("DATA", "doInBackground: "+lists[0].get(1).getGrade());
+            for (InspectionResultsModel data: lists[0]) {
+                if(data.getGrade()!= null&&data.getGrade().equals("A")){
+                    listAresult.add(data);
+                }
+                else if (data.getGrade()!= null     &&data.getGrade().equals("B")){
+                    listBresult.add(data);
+                }
+            }
+
+            return null;
         }
     }
 }

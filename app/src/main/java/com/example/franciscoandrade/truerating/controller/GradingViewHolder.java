@@ -76,6 +76,9 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
                 bundle.putString("phone", businessNumber);
                 bundle.putString("score", inspectionResultsModel.getScore());
                 bundle.putString("name", name);
+                if (letter != "Not Yet Implemented") {
+                    bundle.putString("grade", pendingGrade);
+                }
                 if (letter != null) {
                     bundle.putString("grade", letter);
                 } else {
