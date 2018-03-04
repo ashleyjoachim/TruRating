@@ -57,25 +57,6 @@ public class LocationHelper {
         }
     }
 
-    public void setZipcode(String zipcode){
-        this.zipcode = zipcode;
-    }
 
-//    @SuppressLint("MissingPermission")
-//    public String getLocation() {
-//
-//        fusedLocationProviderClient.getLastLocation()
-//                .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        try {
-//                            geocoder = new Geocoder(context, Locale.ENGLISH);
-//                            setZipcode(geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getPostalCode());
-//                        } catch (java.io.IOException e) {
-//                            Log.e("TAG", e.getMessage());
-//                        }
-//                    }
-//                });
-//        return zipcode;
-//    }
+
 }

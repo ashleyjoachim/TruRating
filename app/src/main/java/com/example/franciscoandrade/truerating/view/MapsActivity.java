@@ -33,7 +33,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -93,6 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         main_recycler_view.setLayoutManager(linearLayoutManager);
         networkZipcodeSearch("10001");
 
+
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         mBottomSheetBehavior.setPeekHeight(300);
@@ -100,6 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
+
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     mBottomSheetBehavior.setPeekHeight(50);
                 }
@@ -196,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         LatLng nyc = new LatLng(40.7128, -74.0060);
+
 //        mMap.addMarker(new MarkerOptions().position(nyc).title("Marker in NYC").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_round)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(nyc));
         //UiSettings uiSettings = mMap.getUiSettings();
@@ -268,6 +270,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
 
 
     private void moveToCurrentLocation(LatLng currentLocation) {
