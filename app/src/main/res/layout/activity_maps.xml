@@ -1,56 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:orientation="vertical"
-android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-
-    tools:context="com.example.franciscoandrade.truerating.view.MapsActivity"
-    >
-
-    <include layout="@layout/action_toolbar"/>
-
-
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
-    android:layout_marginTop="-20dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.example.franciscoandrade.truerating.view.MapsActivity">
 
-    <ScrollView
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
+        android:fitsSystemWindows="true">
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="0dp">
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="700dp"
-                />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
-        </LinearLayout>
+                    <fragment
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp" />
 
-    </ScrollView>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/maps_search_bar"
+                            android:layout_width="320dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="75dp"
+                            android:background="@drawable/rounded"
+                            android:drawablePadding="8dp"
+                            android:drawableRight="@android:drawable/ic_menu_search"
+                            android:elevation="10dp"
+                            android:hint="search..."
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="20dp" />
+
+
+                    </RelativeLayout>
+
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
 
     <LinearLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:clipToPadding="true"
-
         android:background="@color/light_gray"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         >
@@ -68,6 +94,85 @@ android:layout_height="match_parent"
                 android:background="@color/colorBlack"
                 />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/btnA_Rating"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/btnA_RatingBar"
+                        android:layout_width="20dp"
+                        android:layout_height="2dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@color/dark_gray"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/btnB_Rating"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B"
+                        android:textSize="20sp"
+                        android:textAlignment="center"/>
+
+                    <TextView
+                        android:id="@+id/btnB_RatingBar"
+                        android:layout_width="20dp"
+                        android:layout_height="2dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@color/dark_gray"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnOther_Rating"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="All"
+                        android:textSize="20sp"
+                        android:textAlignment="center"/>
+
+                    <TextView
+                        android:id="@+id/btnOther_RatingBar"
+                        android:layout_width="20dp"
+                        android:layout_height="2dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@color/light_green"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_recycler_view"
                 android:layout_width="match_parent"
@@ -83,4 +188,4 @@ android:layout_height="match_parent"
 
 </android.support.design.widget.CoordinatorLayout>
 
-</LinearLayout>
+</RelativeLayout>

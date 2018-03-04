@@ -34,11 +34,6 @@ public class BusinessDetail extends AppCompatActivity{
     private String grade;
 
 
-<<<<<<< Updated upstream
-
-=======
-    @SuppressLint("ResourceAsColor")
->>>>>>> Stashed changes
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +42,7 @@ public class BusinessDetail extends AppCompatActivity{
         businessName = findViewById(R.id.restaurant_name);
         addressLine = findViewById(R.id.restaurant_address);
         critical = findViewById(R.id.critical_flag);
-        violationPoints = findViewById(R.id.score);
+       // violationPoints = findViewById(R.id.score);
         violationCodes= findViewById(R.id.violation_code);
         violationDescription = findViewById(R.id.violation_des);
 
@@ -62,7 +57,7 @@ public class BusinessDetail extends AppCompatActivity{
         status = getInfo("critical");
         description = getInfo("desc");
         code = getInfo("code");
-        points = getInfo("score");
+        //points = getInfo("score");
 
 
         try {
@@ -72,7 +67,7 @@ public class BusinessDetail extends AppCompatActivity{
             critical.setText("Status: " + status);
             violationDescription.setText("Violation Description: " + "\n" + description);
             violationCodes.setText("Violation Code: " + code);
-            violationPoints.setText("Violation Points: " + points);
+            //violationPoints.setText("Violation Points: " + points);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -81,7 +76,6 @@ public class BusinessDetail extends AppCompatActivity{
 
     public String getInfo(String description) {
         return getIntent().getExtras().get(description).toString();
-
     }
 
     @SuppressLint("ResourceAsColor")

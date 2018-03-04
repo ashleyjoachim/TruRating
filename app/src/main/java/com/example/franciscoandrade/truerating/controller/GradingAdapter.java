@@ -31,7 +31,8 @@ public class GradingAdapter extends RecyclerView.Adapter<GradingViewHolder> {
     @Override
     public GradingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_view, parent, false);
-        return new GradingViewHolder(view);    }
+        return new GradingViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(GradingViewHolder holder, int position) {
