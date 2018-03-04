@@ -30,7 +30,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -90,7 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         main_recycler_view.setLayoutManager(linearLayoutManager);
         networkZipcodeSearch("10001");
 
-
         View bottomSheet = findViewById( R.id.bottom_sheet );
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         mBottomSheetBehavior.setPeekHeight(300);
@@ -99,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBottomSheetBehavior.setPeekHeight(100);
+                    mBottomSheetBehavior.setPeekHeight(50);
                 }
             }
 
@@ -198,26 +196,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-            @Override
-            public void onMyLocationChange(Location location) {
-                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
-                mMap.animateCamera(cu);
-                Geocoder coder = new Geocoder(getApplicationContext());
-                List<Address> address;
-                try {
-                    address = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
-                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getPostalCode());
-                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getAddressLine(0));
-                    String[] tokens = address.get(0).getAddressLine(0).split("\\d{5}");
-                    Log.d("ZIP", "onMyLocationChange: "+tokens.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
@@ -231,9 +209,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setIndoorLevelPickerEnabled(true);
 
         uiSettings.setMyLocationButtonEnabled(true);
-
-
-
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -327,16 +302,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void moveToCurrentLocation(LatLng currentLocation)
-    {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
-        // Zoom in, animating the camera.
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-
-    }
 
 
 }

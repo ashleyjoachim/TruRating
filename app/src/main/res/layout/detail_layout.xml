@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,74 +10,74 @@
 
     <TextView
         android:id="@+id/name_restaurant_detail"
+        android:text="MIMI WOK"
+        android:gravity="center"
+        android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="MIMI WOK"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
+        android:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/business_address_detail"
+        android:id="@+id/business_adress_detail"
+        android:text="2355 west fourth NY,NY 10022"
+        android:gravity="center"
+        android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="2355 west fourth NY,NY 10022"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
+
 
 
     <TextView
         android:id="@+id/lettergrade_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:text="A"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="100sp" />
+        android:textSize="100sp"
+        android:layout_gravity="center"/>
 
 
     <TextView
+        android:text="@string/violations"
+        android:layout_gravity="center"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingBottom="8dp"
-        android:text="@string/violations"
-        android:textColor="@android:color/black" />
+        android:paddingBottom="8dp"/>
 
     <TextView
         android:id="@+id/critical_flag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/critical"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/score"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/violation_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/violationcode"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/points"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/score"
-        android:textSize="16sp" />
-
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/violation_des"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/violatio_descrip"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

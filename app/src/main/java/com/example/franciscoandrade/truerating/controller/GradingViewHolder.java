@@ -2,7 +2,6 @@ package com.example.franciscoandrade.truerating.controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,10 +23,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private String streetAddress;
     private String businessNumber;
     private String letter;
-    private String pendingGrade;
-    private String name;
     private LinearLayout cardLayout;
-    private Context context;
 
 
     public GradingViewHolder(View itemView) {
@@ -41,26 +37,25 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         cardLayout = itemView.findViewById(R.id.iv_card);
 
     }
+    public void onbind(InspectionResultsModel inspectionResultsModel){
 
-    public void onbind(final InspectionResultsModel inspectionResultsModel) {
 
-        name = inspectionResultsModel.getDba();
-        streetAddress = inspectionResultsModel.getBuilding() + " " + inspectionResultsModel.getStreet()
+        streetAddress = inspectionResultsModel.getBuilding()+ " " + inspectionResultsModel.getStreet()
                 + "\n" + inspectionResultsModel.getBoro() + " , " + inspectionResultsModel.getZipcode();
 
         businessNumber = inspectionResultsModel.getPhone();
 
         letter = inspectionResultsModel.getGrade();
-        pendingGrade = "Pending";
 
-        restaurantName.setText(name);
+        restaurantName.setText(inspectionResultsModel.getDba());
         address.setText(streetAddress);
         phoneNumber.setText(businessNumber);
-        if (inspectionResultsModel.getGrade() == null || inspectionResultsModel.getGrade().equals(pendingGrade)) {
+        if(inspectionResultsModel.getGrade()==null || inspectionResultsModel.getGrade().equals("Not Yet Graded")){
             letter_gradePending.setVisibility(View.VISIBLE);
             letterGrade.setVisibility(View.GONE);
 
-        } else {
+        }
+        else {
             letter_gradePending.setVisibility(View.GONE);
             letterGrade.setVisibility(View.VISIBLE);
 
@@ -70,23 +65,11 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         cardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), BusinessDetail.class);
-                Bundle bundle = new Bundle();
-
-                bundle.putString("code",inspectionResultsModel.getViolation_code());
-                bundle.putString("desc",inspectionResultsModel.getViolation_description());
-                bundle.putString("critical",inspectionResultsModel.getCritical_flag());
-                bundle.putString("address", streetAddress);
-                bundle.putString("phone", businessNumber);
-                bundle.putString("name", name);
-                if (letter != null) {
-                    bundle.putString("grade", letter);
-                } else {
-                    bundle.putString("grade", pendingGrade);
-                }
-
-                intent.putExtras(bundle);
+                Intent intent  = new Intent(itemView.getContext(),BusinessDetail.class);
                 itemView.getContext().startActivity(intent);
+
+
+
             }
         });
     }

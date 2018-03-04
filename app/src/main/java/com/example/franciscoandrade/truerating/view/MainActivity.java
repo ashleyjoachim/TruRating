@@ -3,6 +3,7 @@ package com.example.franciscoandrade.truerating.view;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +23,11 @@ import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,16 +39,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    final private static String preferenceKey = "truRating_prefs";
+
     private Retrofit retrofit;
     private RecyclerView main_recycler_view;
     private GradingAdapter gradingAdapter;
     private List<InspectionResultsModel> inspectionResultsList;
+    private SharedPreferences preferences;
+    Gson gson;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final EditText searchEditText = findViewById(R.id.main_search_bar);
+
+        preferences = getSharedPreferences(preferenceKey, MODE_PRIVATE);
+        gson = new Gson();
+
 
 
 
@@ -102,7 +116,22 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    public void networkZipcodeSearch(String zipcode) {
+    public ArrayList<InspectionResultsModel> getList(String zipcode){
+        Type listType = new TypeToken<List<InspectionResultsModel>>(){}.getType();
+        return gson.fromJson(preferences.getString(zipcode,"empty"),listType);
+    }
+
+    public void storeList(String zipcode, List<InspectionResultsModel> list){
+        if(!preferences.contains(zipcode)) {
+            preferences.edit().putString(zipcode, gson.toJson(list)).apply();
+        }
+    }
+
+    public void networkZipcodeSearch(final String zipcode) {
+        if(preferences.contains(zipcode)){
+            gradingAdapter.adGrades(getList(zipcode));
+            return;
+        }
         RestApi service = retrofit.create(RestApi.class);
         Call<List<InspectionResultsModel>> response = service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
@@ -111,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
+
+                    storeList(zipcode, inspectionResultsList);
+
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
             }
@@ -133,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
+
+                    Gson gson = new Gson();
+                    String toJson = gson.toJson(inspectionResultsList);
+
                     gradingAdapter.adGrades(inspectionResultsList);
                     Log.d("MainActivity", "onResponse: " + response.body().size());
                 }
