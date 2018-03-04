@@ -26,6 +26,9 @@
         android:paddingBottom="8dp"
         android:paddingTop="16dp" />
 
+
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recycler_view"
         android:layout_width="match_parent"

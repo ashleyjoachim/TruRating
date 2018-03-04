@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrueRating</string>
+    <string name="app_name">TruRating</string>
     <string name="title_activity_maps">Map</string>
     <string name="violations">Violations were cited in the following area(s):</string>
     <string name="violationcode">Violation Code: </string>

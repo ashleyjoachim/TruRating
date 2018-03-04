@@ -65,7 +65,24 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         cardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent  = new Intent(itemView.getContext(),BusinessDetail.class);
+
+                Intent intent = new Intent(itemView.getContext(), BusinessDetail.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("code",inspectionResultsModel.getViolation_code());
+                bundle.putString("desc",inspectionResultsModel.getViolation_description());
+                bundle.putString("critical",inspectionResultsModel.getCritical_flag());
+                bundle.putString("address", streetAddress);
+                bundle.putString("phone", businessNumber);
+                bundle.putString("score", inspectionResultsModel.getScore());
+                bundle.putString("name", name);
+                if (letter != null) {
+                    bundle.putString("grade", letter);
+                } else {
+                    bundle.putString("grade", pendingGrade);
+                }
+
+                intent.putExtras(bundle);
                 itemView.getContext().startActivity(intent);
 
 
