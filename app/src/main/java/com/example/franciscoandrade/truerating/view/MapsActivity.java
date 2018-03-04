@@ -192,11 +192,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+
+
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
                 CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
                 mMap.animateCamera(cu);
+                Log.d("REPEATS", "onMyLocationChange: ");
             }
         });
 
@@ -212,14 +215,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        uiSettings.setMapToolbarEnabled(true);
 //        uiSettings.setIndoorLevelPickerEnabled(true);
 //        uiSettings.setMyLocationButtonEnabled(true);
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
-        mMap.animateCamera(cu);
+
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
         } else {
+            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(nyc, 12);
+            mMap.animateCamera(cu);
             mMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             googleMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -231,6 +235,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onMapLongClick(LatLng latLng) {
                     mMap.clear();
+
+
                     a = latLng.latitude;
                     b = latLng.longitude;
                     newCoor = new LatLng(a, b);
@@ -239,34 +245,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String zip = "";
                     try {
                         // May throw an IOException
-                        address = coder.getFromLocation(a, b, 5);
+                        address = coder.getFromLocation(a, b, 2);
                         //address = coder.getFromLocationName("3105 Astoria Blvd S, Astoria, NY 11102", 5);
                         if (address != null) {
                             mMap.addMarker(new MarkerOptions().position(newCoor).title(address.get(0).getAddressLine(0)));
                             zip = address.get(0).getPostalCode();
+                            new LoadData().execute(zip);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
 
-                    new LoadData().execute(zip);
-
                 }
             });
 
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                double lat = location.getLatitude();
-                                double lng = location.getLongitude();
-                                mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Marker in NYC"));
-                            }
-                        }
-                    });
+//            mFusedLocationClient.getLastLocation()
+//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            // Got last known location. In some rare situations this can be null.
+//                            if (location != null) {
+//                                // Logic to handle location object
+//                                double lat = location.getLatitude();
+//                                double lng = location.getLongitude();
+//                                mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Marker in NYC"));
+//                            }
+//                        }
+//                    });
         }
 
 
