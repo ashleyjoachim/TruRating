@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.example.franciscoandrade.truerating.controller.GradingAdapter;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -93,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     mBottomSheetBehavior.setPeekHeight(50);
                 }
             }
@@ -104,6 +107,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
+
+
+
+
     private void retrofitGrading() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://data.cityofnewyork.us/resource/")
@@ -119,8 +126,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
+                inspectionResultsList= new ArrayList<>();
                 if(response.isSuccessful()){
-                    inspectionResultsList= new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
@@ -135,53 +142,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
 
-        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-            @Override
-            public void onMyLocationChange(Location location) {
-                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18);
-                mMap.animateCamera(cu);
-                Geocoder coder = new Geocoder(getApplicationContext());
-                List<Address> address;
-                try {
-                    address = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
-                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getPostalCode());
-                    Log.d("Current", "onMyLocationChange: "+"-"+address.get(0).getAddressLine(0));
-                    String[] tokens = address.get(0).getAddressLine(0).split("\\d{5}");
-                    Log.d("ZIP", "onMyLocationChange: "+tokens.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         LatLng nyc = new LatLng(40.7128, -74.0060);
-        mMap.addMarker(new MarkerOptions().position(nyc).title("Marker in NYC").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_round)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(nyc));
-        UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomControlsEnabled(true);
-        uiSettings.setMapToolbarEnabled(true);
-        uiSettings.setIndoorLevelPickerEnabled(true);
-
-        uiSettings.setMyLocationButtonEnabled(true);
+//        mMap.addMarker(new MarkerOptions().position(nyc).title("Marker in NYC").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_round)));
+       //mMap.moveCamera(CameraUpdateFactory.newLatLng(nyc));
+        //UiSettings uiSettings = mMap.getUiSettings();
+//        uiSettings.setZoomControlsEnabled(true);
+//        uiSettings.setMapToolbarEnabled(true);
+//        uiSettings.setIndoorLevelPickerEnabled(true);
+//        uiSettings.setMyLocationButtonEnabled(true);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom( nyc, 12);
+        mMap.animateCamera(cu);
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -189,72 +167,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
         } else {
             mMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            googleMap.getUiSettings().setRotateGesturesEnabled(false);
+            googleMap.getUiSettings().setScrollGesturesEnabled(true);
+            googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
-
-            LatLng p1 = null;
 
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-
-
-                    Log.d("MAAP==", "onMapClick: " + latLng.toString());
-                    Log.d("MAAP==", "onMapClick: ");
-
                     mMap.clear();
                     a = latLng.latitude;
                     b = latLng.longitude;
                     newCoor = new LatLng(a, b);
                     Geocoder coder = new Geocoder(getApplicationContext());
                     List<Address> address;
+                    String zip="";
                     try {
                         // May throw an IOException
                         address = coder.getFromLocation(a, b, 5);
                         //address = coder.getFromLocationName("3105 Astoria Blvd S, Astoria, NY 11102", 5);
                         if (address != null) {
-                            //Address location = address.get(0);
-                            //p1 = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.addMarker(new MarkerOptions().position(newCoor).title(address.get(0).getAddressLine(0)));
-                            Log.d("Addres", "onMapLongClick: " + address.get(0).getAddressLine(0));
+                            zip=address.get(0).getPostalCode();
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
+                    new LoadData().execute(zip);
 
                 }
             });
-
-//            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//                @Override
-//                public void onMapClick(LatLng latLng) {
-//                    Log.d("MAAP==", "onMapClick: "+latLng.toString());
-//                    mMap.clear();
-//                    a= latLng.latitude;
-//                    b= latLng.longitude;
-//                     newCoor = new LatLng(a, b);
-//                    Geocoder coder = new Geocoder(getApplicationContext());
-//                    List<Address> address;
-//                    try {
-//                        // May throw an IOException
-//                        address=coder.getFromLocation(a,b, 5);
-//                        //address = coder.getFromLocationName("3105 Astoria Blvd S, Astoria, NY 11102", 5);
-//                        if (address != null) {
-//                            //Address location = address.get(0);
-//                            //p1 = new LatLng(location.getLatitude(), location.getLongitude());
-//                            mMap.addMarker(new MarkerOptions().position(newCoor).title(address.get(0).getAddressLine(0)));
-//                        }
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//
-//                   // mMap.addMarker(new MarkerOptions().position(newCoor).title("New"));
-//                    //Log.d("LOCATION=", "onMapClick: "+);
-//
-//                }
-//            });
-
 
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -276,6 +220,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+    private  class LoadData extends AsyncTask<String, Void, Void>{
 
+        @Override
+        protected Void doInBackground(String... voids) {
+            networkCallGrading(voids[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            gradingAdapter.notifyDataSetChanged();
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
 
 }
