@@ -1,17 +1,13 @@
 package com.example.franciscoandrade.truerating.view;
 
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -22,15 +18,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
+import com.example.franciscoandrade.truerating.backend.SearchDatabase;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -38,12 +32,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double longitude;
     private double latitude;
     private Location mLastLocation;
+    private SearchDatabase searchDatabase;
 
 
     private Retrofit retrofit;
@@ -76,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        searchDatabase = new SearchDatabase(getApplicationContext());
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -152,12 +144,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
+                    for (int i = 0; i < response.body().size()-1; i++) {
+                        String searchTerms = response.body().get(i).getDba();
+                        searchDatabase.addSearchTerm(new InspectionResultsModel(searchTerms));
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<InspectionResultsModel>> call, Throwable t) {
-
                 Log.d("RESPONSE", "onFailure: " + t.getMessage());
             }
         });
@@ -175,6 +170,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
+
+                    for (int i = 0; i < response.body().size(); i++) {
+                        searchDatabase.addSearchTerm(new InspectionResultsModel(response.body().get(i).getDba()));
+                    }
                     Log.d("MainActivity", "onResponse: " + response.body().size());
                 }
             }

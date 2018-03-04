@@ -20,10 +20,12 @@ import android.widget.TextView;
 
 import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
+import com.example.franciscoandrade.truerating.backend.SearchDatabase;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         final EditText searchEditText = findViewById(R.id.main_search_bar);
 
 
-
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        main_recycler_view= findViewById(R.id.main_recycler_view);
+        main_recycler_view = findViewById(R.id.main_recycler_view);
         retrofitGrading();
-        gradingAdapter= new GradingAdapter(this);
+        gradingAdapter = new GradingAdapter(this);
 
 
         main_recycler_view.setAdapter(gradingAdapter);
@@ -134,6 +135,13 @@ public class MainActivity extends AppCompatActivity {
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
+                    SearchDatabase searchDatabase = new SearchDatabase(getApplicationContext());
+
+                    for (int i = 0; i < response.body().size(); i++) {
+                        String searchTerms = response.body().get(i).getDba();
+                        searchDatabase.addSearchTerm(new InspectionResultsModel(searchTerms));
+                    }
+
                     Log.d("MainActivity", "onResponse: " + response.body().size());
                 }
             }
