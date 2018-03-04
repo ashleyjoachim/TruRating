@@ -1,7 +1,8 @@
-package com.example.franciscoandrade.truerating;
+package com.example.franciscoandrade.truerating.view;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,9 +16,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.franciscoandrade.truerating.R;
 import com.example.franciscoandrade.truerating.backend.RestApi;
 import com.example.franciscoandrade.truerating.controller.GradingAdapter;
 import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
@@ -76,7 +81,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
-
         main_recycler_view= findViewById(R.id.main_recycler_view);
         retrofitGrading();
         gradingAdapter= new GradingAdapter(this);
@@ -84,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         main_recycler_view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         main_recycler_view.setLayoutManager(linearLayoutManager);
-        networkCallGrading("11220");
+        networkZipcodeSearch("10001");
 
         View bottomSheet = findViewById( R.id.bottom_sheet );
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -94,12 +98,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStateChanged(View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBottomSheetBehavior.setPeekHeight(50);
+                    mBottomSheetBehavior.setPeekHeight(100);
                 }
             }
 
             @Override
             public void onSlide(View bottomSheet, float slideOffset) {
+            }
+        });
+
+        final EditText searchEditText = findViewById(R.id.maps_search_bar);
+
+        searchEditText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String input = searchEditText.getText().toString().toUpperCase().trim();
+                    main_recycler_view.scrollToPosition(0);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    if (input.length() == 5) {
+                        networkZipcodeSearch(input);
+                        return true;
+                    } else {
+                        networkNameSearch(input);
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
@@ -113,14 +138,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    public void networkCallGrading(String zipcode){
+
+    public void networkZipcodeSearch(String zipcode) {
         RestApi service = retrofit.create(RestApi.class);
-        Call<List<InspectionResultsModel>> response =service.getZipcodeDiscover(zipcode);
+        Call<List<InspectionResultsModel>> response = service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
-                if(response.isSuccessful()){
-                    inspectionResultsList= new ArrayList<>();
+                if (response.isSuccessful()) {
+                    inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
                 }
@@ -129,7 +155,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onFailure(Call<List<InspectionResultsModel>> call, Throwable t) {
 
-                Log.d("RESPONSE", "onFailure: "+t.getMessage());
+                Log.d("RESPONSE", "onFailure: " + t.getMessage());
+            }
+        });
+
+    }
+
+    public void networkNameSearch(String name) {
+        RestApi service = retrofit.create(RestApi.class);
+        Call<List<InspectionResultsModel>> response = service.getDBADiscover(name);
+        response.enqueue(new Callback<List<InspectionResultsModel>>() {
+            @Override
+            public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
+                if (response.isSuccessful()) {
+                    inspectionResultsList = new ArrayList<>();
+                    inspectionResultsList.addAll(response.body());
+                    gradingAdapter.adGrades(inspectionResultsList);
+                    Log.d("MainActivity", "onResponse: " + response.body().size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<InspectionResultsModel>> call, Throwable t) {
+
+                Log.d("MainActivity", "onFailure: " + t.getMessage());
             }
         });
 
@@ -148,8 +197,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-
-
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
@@ -170,6 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -182,6 +230,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setIndoorLevelPickerEnabled(true);
 
         uiSettings.setMyLocationButtonEnabled(true);
+
+
+
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -275,7 +326,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    private void moveToCurrentLocation(LatLng currentLocation)
+    {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
+        // Zoom in, animating the camera.
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
+
+    }
 
 
 }
