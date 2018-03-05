@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    mBottomSheetBehavior.setPeekHeight(300);
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     String input = searchEditText.getText().toString().toUpperCase().trim();
                     main_recycler_view.scrollToPosition(0);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -336,6 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 gradingAdapter.notifyDataSetChanged();
                 gradingAdapter.adGrades(listAresult);
                 gradingAdapter.notifyDataSetChanged();
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.btnB_Rating:
                 Log.d("BTNClickB", "onClick: ");
@@ -344,6 +345,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 gradingAdapter.notifyDataSetChanged();
                 gradingAdapter.adGrades(listBresult);
                 gradingAdapter.notifyDataSetChanged();
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
 
             case R.id.btnOther_Rating:
@@ -352,6 +354,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 btnOther_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
                 gradingAdapter.adGrades(inspectionResultsList);
                 gradingAdapter.notifyDataSetChanged();
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
 
 
