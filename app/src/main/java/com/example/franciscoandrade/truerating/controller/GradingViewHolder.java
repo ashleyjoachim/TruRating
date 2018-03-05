@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private String letter;
     private String pendingGrade;
     private String name;
+    private String point;
     private LinearLayout cardLayout;
     private Context context;
 
@@ -52,6 +54,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
         letter = inspectionResultsModel.getGrade();
         pendingGrade = "Pending";
+        point = inspectionResultsModel.getScore();
 
         restaurantName.setText(name);
         address.setText(streetAddress);
@@ -71,24 +74,23 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(itemView.getContext(), BusinessDetail.class);
-                Bundle bundle = new Bundle();
 
-                bundle.putString("code",inspectionResultsModel.getViolation_code());
-                bundle.putString("desc",inspectionResultsModel.getViolation_description());
-                bundle.putString("critical",inspectionResultsModel.getCritical_flag());
-                bundle.putString("address", streetAddress);
-                bundle.putString("phone", businessNumber);
-                bundle.putString("name", name);
+                intent.putExtra("code",inspectionResultsModel.getViolation_code());
+                intent.putExtra("desc",inspectionResultsModel.getViolation_description());
+                intent.putExtra("critical",inspectionResultsModel.getCritical_flag());
+                intent.putExtra("address", streetAddress);
+                intent.putExtra("name", name);
+                intent.putExtra("point", point);
+
                 if (letter != "Not Yet Implemented") {
-                    bundle.putString("grade", pendingGrade);
+                    intent.putExtra("grade", pendingGrade);
                 }
                 if (letter != null) {
-                    bundle.putString("grade", letter);
+                    intent.putExtra("grade", letter);
                 } else {
-                    bundle.putString("grade", pendingGrade);
+                    intent.putExtra("grade", pendingGrade);
                 }
 
-                intent.putExtras(bundle);
                 itemView.getContext().startActivity(intent);
             }
         });
