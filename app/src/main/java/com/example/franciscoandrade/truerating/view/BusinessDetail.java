@@ -56,6 +56,10 @@ public class BusinessDetail extends AppCompatActivity {
         status = intent.getStringExtra("critical");
         address = intent.getStringExtra("address");
         grade = intent.getStringExtra("grade");
+
+        if (intent.getStringExtra("grade") != null){
+            setTextColor(grade, letterGrade);
+        }
         name = intent.getStringExtra("name");
         points = intent.getStringExtra("point");
 
@@ -72,6 +76,7 @@ public class BusinessDetail extends AppCompatActivity {
             businessName.setText(name);
             addressLine.setText(address);
             letterGrade.setText(grade);
+            letterGrade.setTextSize(70);
             critical.setText("Status: " + status);
             violationDescription.setText("Violation Description: " + "\n" + description);
             violationCodes.setText("Violation Code: " + code);
@@ -101,6 +106,22 @@ public class BusinessDetail extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return true;
+    }
+    public void setTextColor(String letter, TextView view) {
+        if (letter.equals("A")) {
+            view.setTextColor(view.getContext().getResources().getColor(R.color.blue));
+
+        }else if (letter.equals("B")) {
+            view.setTextColor(view.getContext().getResources().getColor(R.color.green));
+        }
+        else if (letter.equals("C")) {
+            view.setTextColor(view.getContext().getResources().getColor(R.color.orange));
+        }
+        else if (letter.equals("Z")) {
+            view.setTextColor(view.getContext().getResources().getColor(R.color.green));
+        }
+
+
     }
 
 }

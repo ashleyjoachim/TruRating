@@ -73,21 +73,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<InspectionResultsModel> listBresult;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchDatabase = new SearchDatabase(getApplicationContext());
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        btnA_RatingBar=findViewById(R.id.btnA_RatingBar);
-        btnB_RatingBar=findViewById(R.id.btnB_RatingBar);
-        btnOther_RatingBar=findViewById(R.id.btnOther_RatingBar);
-        btnA_Rating=findViewById(R.id.btnA_Rating);
-        btnB_Rating=findViewById(R.id.btnB_Rating);
-        btnOther_Rating=findViewById(R.id.btnOther_Rating);
+        btnA_RatingBar = findViewById(R.id.btnA_RatingBar);
+        btnB_RatingBar = findViewById(R.id.btnB_RatingBar);
+        btnOther_RatingBar = findViewById(R.id.btnOther_RatingBar);
+        btnA_Rating = findViewById(R.id.btnA_Rating);
+        btnB_Rating = findViewById(R.id.btnB_Rating);
+        btnOther_Rating = findViewById(R.id.btnOther_Rating);
+
         btnA_Rating.setOnClickListener(this);
         btnB_Rating.setOnClickListener(this);
+
         btnOther_Rating.setOnClickListener(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -133,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     main_recycler_view.scrollToPosition(0);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    if (input.equals("")){
+                    if (input.equals("")) {
                         searchEditText.setError("Enter Text");
                         return false;
 
@@ -168,8 +169,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onResponse(Call<List<InspectionResultsModel>> call, Response<List<InspectionResultsModel>> response) {
                 if (response.isSuccessful()) {
-                    listAresult= new ArrayList<>();
-                    listBresult= new ArrayList<>();
+                    listAresult = new ArrayList<>();
+                    listBresult = new ArrayList<>();
                     inspectionResultsList = new ArrayList<>();
                     inspectionResultsList.addAll(response.body());
                     gradingAdapter.adGrades(inspectionResultsList);
@@ -177,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     new LoadFilteredData().execute(inspectionResultsList);
 
                     //setMapPoints(inspectionResultsList);
-                    for (int i = 0; i < response.body().size()-1; i++) {
+                    for (int i = 0; i < response.body().size() - 1; i++) {
                         String searchTerms = response.body().get(i).getDba();
                         searchDatabase.addSearchTerm(new InspectionResultsModel(searchTerms));
                     }
@@ -314,7 +315,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     private void moveToCurrentLocation(LatLng currentLocation) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
         // Zoom in, animating the camera.
@@ -327,12 +327,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnA_Rating:
                 Log.d("BTNClickA", "onClick: ");
                 offBars();
-                btnA_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                btnA_RatingBar.setBackgroundColor(getResources().getColor(R.color.blue));
                 gradingAdapter.notifyDataSetChanged();
                 gradingAdapter.adGrades(listAresult);
                 gradingAdapter.notifyDataSetChanged();
@@ -341,7 +341,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.btnB_Rating:
                 Log.d("BTNClickB", "onClick: ");
                 offBars();
-                btnB_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                btnB_RatingBar.setBackgroundColor(getResources().getColor(R.color.green));
                 gradingAdapter.notifyDataSetChanged();
                 gradingAdapter.adGrades(listBresult);
                 gradingAdapter.notifyDataSetChanged();
@@ -351,7 +351,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.btnOther_Rating:
                 Log.d("BTNClickOther", "onClick: ");
                 offBars();
-                btnOther_RatingBar.setBackgroundColor(getResources().getColor(R.color.light_green));
+                btnOther_RatingBar.setBackgroundColor(getResources().getColor(R.color.black));
                 gradingAdapter.adGrades(inspectionResultsList);
                 gradingAdapter.notifyDataSetChanged();
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -359,7 +359,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         }
-
     }
 
     private void offBars() {
@@ -391,14 +390,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected Void doInBackground(List<InspectionResultsModel>[] lists) {
 
-            Log.d("DATA", "doInBackground: "+lists[0].get(1).getGrade());
-            for (InspectionResultsModel data: lists[0]) {
-                if(data.getGrade()!= null&&data.getGrade().equals("A")){
+            Log.d("DATA", "doInBackground: " + lists[0].get(1).getGrade());
+            for (InspectionResultsModel data : lists[0]) {
+                if (data.getGrade() != null && data.getGrade().equals("A")) {
                     listAresult.add(data);
-                }
-                else if (data.getGrade()!= null     &&data.getGrade().equals("B")){
+                } else if (data.getGrade() != null && data.getGrade().equals("B")) {
                     listBresult.add(data);
                 }
+
             }
 
             return null;

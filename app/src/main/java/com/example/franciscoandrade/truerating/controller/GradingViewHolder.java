@@ -73,6 +73,8 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
         letter = inspectionResultsModel.getGrade();
 
+
+
         pendingGrade = "Pending";
         point = inspectionResultsModel.getScore();
 
@@ -106,7 +108,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("name", name);
                 intent.putExtra("point", point);
 
-                if (letter != "Not Yet Implemented") {
+                if (letter != "Not Yet Graded") {
                     intent.putExtra("grade", pendingGrade);
                 }
                 if (letter != null) {

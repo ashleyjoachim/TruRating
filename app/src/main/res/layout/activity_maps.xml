@@ -109,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,8 +149,6 @@
                         android:layout_gravity="center"
                         android:background="@color/dark_gray"/>
                 </LinearLayout>
-
-
                 <LinearLayout
                     android:id="@+id/btnB_Rating"
                     android:layout_width="0dp"
