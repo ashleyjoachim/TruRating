@@ -6,4 +6,6 @@
     <string name="violatio_descrip">Violation description:</string>
     <string name="critical">Critical</string>
     <string name="score">Violation Points:</string>
+    <string name="pending">Pending</string>
+
 </resources>

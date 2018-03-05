@@ -75,7 +75,7 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
 
 
 
-        pendingGrade = "Pending";
+        pendingGrade = "Grade"+"\n"+"Pending";
         point = inspectionResultsModel.getScore();
 
         restaurantName.setText(name);
