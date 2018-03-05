@@ -16,5 +16,7 @@
     <color name="light_green">#a2fc5e</color>
     <color name="colorFAB">#00bbff</color>
     <color name="bakground">#e3e3e3</color>
+    <color name="orange">#eaa742</color>
+
     <color name="graybakground">#56353535</color>
 </resources>
