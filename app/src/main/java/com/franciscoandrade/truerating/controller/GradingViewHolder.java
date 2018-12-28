@@ -1,20 +1,14 @@
-package com.example.franciscoandrade.truerating.controller;
+package com.franciscoandrade.truerating.controller;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.franciscoandrade.truerating.R;
-import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
-import com.example.franciscoandrade.truerating.view.BusinessDetail;
-
-import static java.lang.String.*;
+import com.franciscoandrade.truerating.R;
+import com.franciscoandrade.truerating.model.InspectionResultsModel;
+import com.franciscoandrade.truerating.view.BusinessDetail;
 
 /**
  * Created by melg on 3/3/18.
@@ -32,8 +26,6 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
     private String name;
     private String point;
     private LinearLayout cardLayout;
-    private Context context;
-
 
     public GradingViewHolder(View itemView) {
         super(itemView);
@@ -42,25 +34,19 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         address = itemView.findViewById(R.id.restaurant_address);
         phoneNumber = itemView.findViewById(R.id.telephone_number);
         letterGrade = itemView.findViewById(R.id.letter_grade);
-
-
         letter_gradePending = itemView.findViewById(R.id.letter_gradePending);
         cardLayout = itemView.findViewById(R.id.iv_card);
-
     }
 
     public void setTextColor(String letter, TextView view) {
         if (letter.equals("A")) {
             view.setTextColor(view.getContext().getResources().getColor(R.color.blue));
 
-        }else if (letter.equals("B")) {
+        } else if (letter.equals("B")) {
             view.setTextColor(view.getContext().getResources().getColor(R.color.green));
+        } else if (letter.equals("C")) {
+            view.setTextColor(view.getContext().getResources().getColor(R.color.orange));
         }
-        else if (letter.equals("C")) {
-        view.setTextColor(view.getContext().getResources().getColor(R.color.orange));
-        }
-
-
     }
 
     public void onbind(final InspectionResultsModel inspectionResultsModel) {
@@ -72,18 +58,16 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         businessNumber = inspectionResultsModel.getPhone();
 
         letter = inspectionResultsModel.getGrade();
-
-
-
-        pendingGrade = "Grade"+"\n"+"Pending";
+        pendingGrade = "Grade" + "\n" + "Pending";
         point = inspectionResultsModel.getScore();
 
         restaurantName.setText(name);
         address.setText(streetAddress);
         phoneNumber.setText(businessNumber);
-        if (inspectionResultsModel.getGrade() != null){
-        setTextColor(letter, letterGrade);
+        if (inspectionResultsModel.getGrade() != null) {
+            setTextColor(letter, letterGrade);
         }
+
         if (inspectionResultsModel.getGrade() == null || inspectionResultsModel.getGrade().equals(pendingGrade)) {
             letter_gradePending.setVisibility(View.VISIBLE);
             letterGrade.setVisibility(View.GONE);
@@ -91,9 +75,8 @@ public class GradingViewHolder extends RecyclerView.ViewHolder {
         } else {
             letter_gradePending.setVisibility(View.GONE);
             letterGrade.setVisibility(View.VISIBLE);
-
-
         }
+
         letterGrade.setText(letter);
 
         cardLayout.setOnClickListener(new View.OnClickListener() {

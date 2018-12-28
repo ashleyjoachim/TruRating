@@ -1,4 +1,4 @@
-package com.example.franciscoandrade.truerating.model;
+package com.franciscoandrade.truerating.model;
 
 
 public class InspectionResultsModel {

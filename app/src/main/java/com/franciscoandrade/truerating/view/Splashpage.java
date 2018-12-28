@@ -1,21 +1,14 @@
-package com.example.franciscoandrade.truerating.view;
+package com.franciscoandrade.truerating.view;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import com.example.franciscoandrade.truerating.R;
+import com.franciscoandrade.truerating.R;
 
 /**
  * Created by melg on 3/4/18.
@@ -25,7 +18,6 @@ public class Splashpage extends AppCompatActivity {
     private VideoView videoView;
     private String TAG;
     private static int SPLASH_TIME_OUT = 3000;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +35,6 @@ public class Splashpage extends AppCompatActivity {
         videoView.requestFocus();
         videoView.setZOrderOnTop(true);
         videoView.start();
-
 
         new Handler().postDelayed(new Runnable() {
 
@@ -64,11 +55,4 @@ public class Splashpage extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
     }
-
-
 }
-
-
-
-
-

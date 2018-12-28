@@ -1,4 +1,4 @@
-package com.example.franciscoandrade.truerating.view;
+package com.franciscoandrade.truerating.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.franciscoandrade.truerating.R;
+import com.franciscoandrade.truerating.R;
 
 /**
  * Created by melg on 3/3/18.
@@ -120,8 +120,5 @@ public class BusinessDetail extends AppCompatActivity {
         else if (letter.equals("Z")) {
             view.setTextColor(view.getContext().getResources().getColor(R.color.green));
         }
-
-
     }
-
 }
