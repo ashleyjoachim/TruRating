@@ -1,4 +1,4 @@
-package com.example.franciscoandrade.truerating.view;
+package com.franciscoandrade.truerating.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,18 +19,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.franciscoandrade.truerating.R;
-import com.example.franciscoandrade.truerating.backend.RestApi;
-import com.example.franciscoandrade.truerating.backend.SearchDatabase;
-import com.example.franciscoandrade.truerating.controller.GradingAdapter;
-import com.example.franciscoandrade.truerating.model.InspectionResultsModel;
+import com.franciscoandrade.truerating.R;
+import com.franciscoandrade.truerating.backend.InspectionResultsApi;
+import com.franciscoandrade.truerating.backend.SearchDatabase;
+import com.franciscoandrade.truerating.controller.GradingAdapter;
+import com.franciscoandrade.truerating.model.InspectionResultsModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             gradingAdapter.adGrades(getList(zipcode));
             return;
         }
-        RestApi service = retrofit.create(RestApi.class);
+        InspectionResultsApi service = retrofit.create(InspectionResultsApi.class);
         Call<List<InspectionResultsModel>> response = service.getZipcodeDiscover(zipcode);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override
@@ -158,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void networkNameSearch(String name) {
-        RestApi service = retrofit.create(RestApi.class);
+        InspectionResultsApi service = retrofit.create(InspectionResultsApi.class);
         Call<List<InspectionResultsModel>> response = service.getDBADiscover(name);
         response.enqueue(new Callback<List<InspectionResultsModel>>() {
             @Override

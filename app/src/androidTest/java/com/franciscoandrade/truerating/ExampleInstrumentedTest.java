@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.franciscoandrade.truerating", appContext.getPackageName());
+        assertEquals("com.franciscoandrade.truerating", appContext.getPackageName());
     }
 }

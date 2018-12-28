@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.example.franciscoandrade.truerating.view.MapsActivity">
+    tools:context="com.franciscoandrade.truerating.view.MapsActivity">
 
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"

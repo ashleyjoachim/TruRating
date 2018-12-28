@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:focusableInTouchMode="true"
-    tools:context="com.example.franciscoandrade.truerating.view.MainActivity">
+    tools:context="com.franciscoandrade.truerating.view.MainActivity">
 
     <EditText
         android:id="@+id/main_search_bar"
